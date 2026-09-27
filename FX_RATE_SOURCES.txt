@@ -1,0 +1,34 @@
+Euro Super Monte Carlo - official currency and short-rate inputs
+
+1. EUR/USD exchange rate
+Source: European Central Bank (ECB) Data Portal
+Series: EXR.M.USD.EUR.SP00.A
+Definition: Monthly average US dollars per euro reference exchange rate.
+
+2. Euro short-term rate before October 2019
+Source: European Central Bank (ECB) Data Portal
+Series: RTD.M.S0.N.C_EONIA.E
+Definition: Monthly historical EONIA rate.
+
+3. Euro short-term rate from October 2019
+Source: European Central Bank (ECB) Data Portal
+Series: EST.B.EU000A2X2A25.WT
+Definition: Euro short-term rate (€STR), daily business-week observations; model converts these to monthly averages.
+
+4. US short-term rate
+Source: Federal Reserve / FRED
+Series: DFF
+Definition: Effective Federal Funds Rate, daily; model converts these to monthly averages.
+
+Local-cache method
+The application attempts to download these fixed official series once and saves cleaned monthly CSV files in a folder named local_macro_data beside the Python scripts. Subsequent launches use those local files and do not require a fresh download. The Refresh button explicitly requests new official observations.
+
+Historical FX conversion for USD-quoted supported proxies:
+1 + R_EUR = (1 + R_USD) * (FX_(t-1) / FX_t)
+where FX is USD per EUR.
+
+Approximate hedged component:
+R_hedged ≈ R_USD + (r_EUR - r_USD) / 12
+
+Partial hedge ratio h:
+R_final = (1-h) * R_unhedged + h * R_hedged
